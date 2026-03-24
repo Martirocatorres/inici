@@ -164,9 +164,11 @@ body {
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  height: 150px;
+  height: 180px;
+  padding-top: 32px;
   margin-bottom: 8px;
   overflow: visible;
+  box-sizing: content-box;
 }
 .bar-col { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
 .bar-val { font-size: 9px; font-weight: 600; color: rgba(160,144,128,0.85); }
@@ -373,10 +375,7 @@ body {
     <div class="chart-card">
       <div class="chart-card-left">
         <div class="bars-wrap" id="barsWrap"></div>
-        <div style="display:flex;justify-content:space-between">
-          <span style="font-size:9px;color:var(--text3)">Any 0</span>
-          <span style="font-size:9px;color:var(--text3)">Any 25</span>
-        </div>
+
       </div>
       <div class="chart-card-right">
         <div class="result-box">
@@ -490,7 +489,7 @@ const barData = [
   { any: 'Any 25', val: 3604  },
 ];
 const maxVal  = 10000;
-const maxH    = 140;
+const maxH    = 125;
 
 const wrap = document.getElementById('barsWrap');
 barData.forEach((d, i) => {
@@ -505,17 +504,22 @@ barData.forEach((d, i) => {
 
   const col_el = document.createElement('div');
   col_el.className = 'bar-col';
-  col_el.style.cssText = `flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;`;
+  col_el.style.cssText = `flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;justify-content:flex-end;`;
+
+  const valLabel = document.createElement('span');
+  valLabel.textContent = (d.val/1000).toFixed(1).replace('.',',')+'K';
+  valLabel.style.cssText = `font-size:9px;font-weight:600;color:rgba(160,144,128,0.9);white-space:nowrap;`;
 
   const bar = document.createElement('div');
-  bar.style.cssText = `width:100%;height:${h}px;background:${col};opacity:${opacity};border-radius:3px 3px 0 0;align-self:flex-end;`;
+  bar.style.cssText = `width:100%;height:${h}px;background:${col};opacity:${opacity};border-radius:3px 3px 0 0;`;
 
-  const label = document.createElement('span');
-  label.textContent = d.any;
-  label.style.cssText = `font-size:9px;color:rgba(160,144,128,0.7);white-space:nowrap;`;
+  const yearLabel = document.createElement('span');
+  yearLabel.textContent = d.any;
+  yearLabel.style.cssText = `font-size:9px;color:rgba(160,144,128,0.6);white-space:nowrap;`;
 
+  col_el.appendChild(valLabel);
   col_el.appendChild(bar);
-  col_el.appendChild(label);
+  col_el.appendChild(yearLabel);
   wrap.appendChild(col_el);
 });
 </script>
