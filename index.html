@@ -279,8 +279,8 @@ body {
 .btn-cta {
   display: block;
   width: 100%;
-  background: var(--ac);
-  color: #111;
+  background: var(--green);
+  color: #fff;
   border: none;
   border-radius: var(--r);
   padding: 17px;
@@ -292,7 +292,16 @@ body {
   transition: background 0.2s;
   margin-bottom: 12px;
 }
-.btn-cta:hover { background: var(--ac2); }
+.btn-cta:hover { background: #17876a; }
+.btn-tarifes {
+  display: block; width: 100%; background: transparent;
+  color: var(--text3); border: none; border-radius: var(--r);
+  padding: 10px; font-size: 13px; font-weight: 400;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  text-decoration: none; transition: all 0.2s;
+  margin-top: 4px; text-align: center;
+}
+.btn-tarifes:hover { color: var(--ac); }
 
 .btn-contact {
   display: block;
@@ -370,11 +379,9 @@ body {
       <li>Els diners parats <span style="color:var(--red)">valdran gairebé la meitat</span> en 10 anys?</li>
       <li>No invertir és l'acció <span style="color:var(--red)">més arriscada,</span> doncs garanteix perdre sempre?</li>
       <li>El teu banc guanya un 4% amb els teus estalvis, però <span style="color:var(--red)">no et dona res a canvi</span>?</li>
+      <li>La majoria de gent té estalvis i pensa en invertir però <span style="color:var(--red)">no sap com fer-ho</span>?</li>
     </ul>
 
-    <div style="margin-top:20px;padding:18px 22px;background:rgba(76,175,130,0.06);border:1px solid rgba(76,175,130,0.25);border-radius:var(--r2)">
-      <p style="font-size:16px;color:var(--green);font-weight:500;line-height:1.55;margin:0">Un simple acompanyament professional et farà invertir millor i més segur que el 95% de la gent.</p>
-    </div>
   </div>
 
   <!-- ── EL PROBLEMA ── -->
@@ -443,6 +450,11 @@ body {
     </div>
   </div>
 
+  <!-- ── FRASE ── -->
+  <div style="margin-bottom:28px;padding:18px 22px;background:rgba(76,175,130,0.06);border:1px solid rgba(76,175,130,0.25);border-radius:var(--r2)">
+    <p style="font-size:16px;color:var(--green);font-weight:500;line-height:1.55;margin:0;text-align:center">Un acompanyament professional independent et farà invertir millor i més segur que el 95% de la gent.</p>
+  </div>
+
   <!-- ── COMPARATIVA ── -->
   <div class="compare-section">
     <div class="sec-label">Per què passa això?</div>
@@ -473,13 +485,13 @@ body {
     <h2>Vols saber quant podries guanyar?</h2>
     <p class="cta-sub">Fes el test de diagnòstic financer gratuït.<br>En 5 minuts descobriràs on ets i quants diners podries estar generant.</p>
 
-    <a class="btn-cta" href="https://martirocatorres.github.io/assessor" target="_blank">
+    <a class="btn-cta" href="https://martirocatorres.github.io/diagnostic" target="_blank">
       Fer el diagnòstic financer gratuït →
     </a>
-    <a class="btn-contact" href="https://calendly.com/martiniroca/sessio-assessorament-69-h" target="_blank">
-      O reserva una sessió directament
-    </a>
 
+    <a class="btn-tarifes" href="https://martirocatorres.github.io/tarifes" target="_blank">
+      Veure tarifes i serveis complets →
+    </a>
     <div class="contact-row">
       <div class="contact-item">✉ <span>martiniroca@gmail.com</span></div>
       <div class="contact-item">📱 <span>655 927 969</span></div>
@@ -491,46 +503,47 @@ body {
 </div>
 
 <script>
-// ── BARRES INFLACIÓ ──
-const barData = [
-  { any: 'Any 0',  val: 10000 },
-  { any: 'Any 5',  val: 8154  },
-  { any: 'Any 10', val: 6648  },
-  { any: 'Any 15', val: 5421  },
-  { any: 'Any 20', val: 4420  },
-  { any: 'Any 25', val: 3604  },
-];
-const maxVal  = 10000;
-const maxH    = 125;
+window.addEventListener('load', function() {
+  const barData = [
+    { any: 'Any 0',  val: 10000 },
+    { any: 'Any 5',  val: 8154  },
+    { any: 'Any 10', val: 6648  },
+    { any: 'Any 15', val: 5421  },
+    { any: 'Any 20', val: 4420  },
+    { any: 'Any 25', val: 3604  },
+  ];
+  const maxVal = 10000;
+  const maxH   = 125;
+  const wrap   = document.getElementById('barsWrap');
+  if (!wrap) return;
+  barData.forEach((d, i) => {
+    const h   = Math.round((d.val / maxVal) * maxH);
+    const pct = i / (barData.length - 1);
+    const r   = Math.round(192 - pct * 60);
+    const g   = Math.round(80  - pct * 30);
+    const b   = Math.round(77  - pct * 20);
+    const col = `rgb(${r},${g},${b})`;
+    const opacity = 1 - pct * 0.45;
 
-const wrap = document.getElementById('barsWrap');
-barData.forEach((d, i) => {
-  const h   = Math.round((d.val / maxVal) * maxH);
-  const pct = i / (barData.length - 1);
-  const r = Math.round(192 - pct * 60);
-  const g = Math.round(80  - pct * 30);
-  const b = Math.round(77  - pct * 20);
-  const col = `rgb(${r},${g},${b})`;
-  const opacity = 1 - pct * 0.45;
+    const col_el = document.createElement('div');
+    col_el.style.cssText = 'flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;justify-content:flex-end;';
 
-  const col_el = document.createElement('div');
-  col_el.style.cssText = `flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;justify-content:flex-end;`;
+    const valLabel = document.createElement('span');
+    valLabel.textContent = (d.val/1000).toFixed(1).replace('.',',')+'K';
+    valLabel.style.cssText = 'font-size:9px;font-weight:600;color:rgba(160,144,128,0.9);white-space:nowrap;';
 
-  const valLabel = document.createElement('span');
-  valLabel.textContent = (d.val/1000).toFixed(1).replace('.',',')+'K';
-  valLabel.style.cssText = `font-size:9px;font-weight:600;color:rgba(160,144,128,0.9);white-space:nowrap;`;
+    const bar = document.createElement('div');
+    bar.style.cssText = `width:100%;height:${h}px;background:${col};opacity:${opacity};border-radius:3px 3px 0 0;`;
 
-  const bar = document.createElement('div');
-  bar.style.cssText = `width:100%;height:${h}px;background:${col};opacity:${opacity};border-radius:3px 3px 0 0;`;
+    const yearLabel = document.createElement('span');
+    yearLabel.textContent = d.any;
+    yearLabel.style.cssText = 'font-size:9px;color:rgba(160,144,128,0.7);white-space:nowrap;margin-top:4px;';
 
-  const yearLabel = document.createElement('span');
-  yearLabel.textContent = d.any;
-  yearLabel.style.cssText = `font-size:8px;color:rgba(160,144,128,0.7);white-space:nowrap;margin-top:4px;`;
-
-  col_el.appendChild(valLabel);
-  col_el.appendChild(bar);
-  col_el.appendChild(yearLabel);
-  wrap.appendChild(col_el);
+    col_el.appendChild(valLabel);
+    col_el.appendChild(bar);
+    col_el.appendChild(yearLabel);
+    wrap.appendChild(col_el);
+  });
 });
 </script>
 </body>
